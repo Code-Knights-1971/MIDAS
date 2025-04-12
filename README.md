@@ -37,11 +37,11 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 
 ####  Phase 1: System Setup
 
-- ✅ Setup **Java Spring Boot** backend with `/api/missile-data` endpoint.
-- ✅ Create **React.js + Leaflet** frontend map centered on India.
-- ✅ Build **Python missile simulator** to stream fake data (1 missile/sec).
-- ✅ Establish **Private WiFi LAN** for offline, secure communication.
-- ✅ Test end-to-end: Simulator ➔ Backend ➔ Frontend.
+-  Setup **Java Spring Boot** backend with `/api/missile-data` endpoint.
+-  Create **React.js + Leaflet** frontend map centered on India.
+-  Build **Python missile simulator** to stream fake data (1 missile/sec).
+-  Establish **Private WiFi LAN** for offline, secure communication.
+-  Test end-to-end: Simulator ➔ Backend ➔ Frontend.
 
 ---
 
@@ -58,7 +58,7 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 
 -  Use **dark-themed CartoDB** tiles for military-style look.
 -  Show interception points dynamically on the map.
-- �\dfef🟩 Color code missile icons by threat level.
+-  Color code missile icons by threat level.
 -  Optional: Smooth missile movement animation.
 -  Custom **missile icons** for realism.
 
@@ -66,16 +66,16 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 
 #### 🧷 Phase 4: Final Prep & Demo
 
-- ✅ Add **Cybersecurity Statement**: “Secure offline LAN mode.”
-- ✅ Prepare clean 5-slide PPT:
+-  Add **Cybersecurity Statement**: “Secure offline LAN mode.”
+-  Prepare clean 5-slide PPT:
   - Problem
   - Limitations of existing systems
   - MIDAS Solution
   - Live Demo
   - Future Work
-- ✅ Assign speaking roles to each team member.
-- ✅ Dry run the demo 2–3 times.
-- ✅ Create backup video/screenshots in case of system crash.
+-  Assign speaking roles to each team member.
+-  Dry run the demo 2–3 times.
+-  Create backup video/screenshots in case of system crash.
 
 ---
 
@@ -92,12 +92,12 @@ C --> D[Frontend (React + Leaflet)]
 
 ###  Hackathon Checklist
 
-- [x] Missile movement visible live on map
-- [x] Threat levels displayed with color codes
-- [x] Interception simulation logic implemented
-- [x] AI classification integrated or simulated
-- [x] Secure private network functional
-- [x] Final slides & demo plan ready
+-  Missile movement visible live on map
+-  Threat levels displayed with color codes
+-  Interception simulation logic implemented
+-  AI classification integrated or simulated
+-  Secure private network functional
+-  Final slides & demo plan ready
 
 ---
 
