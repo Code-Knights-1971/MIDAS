@@ -102,7 +102,7 @@ flowchart TD
 
 ###  Future Enhancements
 
-- Live radar/satellite data integration (instead of simulator)
-- Real-time reinforcement learning for path prediction
-- More advanced CV model trained on real-world datasets
-- Integration with real-time drone/missile tracking systems
+- Live radar/satellite data integration (instead of simulator).
+- Real-time reinforcement learning for path prediction.
+- More advanced CV model trained on real-world datasets.
+- Integration with real-time drone/missile tracking systems.
