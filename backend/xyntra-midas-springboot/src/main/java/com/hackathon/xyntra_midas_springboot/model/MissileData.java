@@ -14,10 +14,5 @@ public class MissileData {
 
 
 }
-  public class Position {
-      public double latitude;
-      public double longitude;
 
-    // Getters and Setters
-}
 
