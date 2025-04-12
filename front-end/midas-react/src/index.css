@@ -1,1 +1,221 @@
-@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 215 27% 12%;
+    --foreground: 210 40% 98%;
+
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 203 80% 57%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 143 48% 40%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 219 70% 30%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 28%;
+    --input: 214 32% 28%;
+    --ring: 203 80% 57%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background-color: #0a151f;
+}
+
+@keyframes radar-scan {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.radar-scanner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  clip-path: polygon(0 0, 50% 50%, 0 100%);
+  background: radial-gradient(circle, rgba(54, 211, 152, 0.1) 0%, rgba(54, 211, 152, 0.05) 70%, rgba(54, 211, 152, 0) 100%);
+  animation: radar-scan 5s linear infinite;
+  transform-origin: center;
+  box-shadow: 0 0 10px rgba(54, 211, 152, 0.5);
+}
+
+.radar-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  border: 1px solid rgba(54, 211, 152, 0.3);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(54, 211, 152, 0.2);
+}
+
+.radar-ring-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  border: 1px solid rgba(54, 211, 152, 0.3);
+  border-radius: 50%;
+}
+
+.radar-ring-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border: 1px solid rgba(54, 211, 152, 0.3);
+  border-radius: 50%;
+}
+
+.radar-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.radar-crosshair::before,
+.radar-crosshair::after {
+  content: "";
+  position: absolute;
+  background-color: rgba(54, 211, 152, 0.2);
+}
+
+.radar-crosshair::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.radar-crosshair::after {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+}
+
+.missile {
+  transition: all 1s linear;
+}
+
+.missile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 50, 50, 0.8);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 10px rgba(255, 50, 50, 0.8);
+}
+
+.control-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(54, 211, 152, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  z-index: 1000;
+  max-width: 300px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(54, 211, 152, 0.3);
+}
+
+.panel-title {
+  font-family: monospace;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(54, 211, 152, 0.5);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.missile-data {
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.missile-entry {
+  margin-bottom: 8px;
+  padding: 5px;
+  border-left: 3px solid rgba(54, 211, 152, 0.5);
+}
+
+.coords {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(54, 211, 152, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(54, 211, 152, 0.05) 1px, transparent 1px);
+  pointer-events: none;
+  z-index: 999;
+}
