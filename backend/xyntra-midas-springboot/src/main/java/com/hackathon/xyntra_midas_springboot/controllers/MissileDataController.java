@@ -2,6 +2,7 @@ package com.hackathon.xyntra_midas_springboot.controllers;
 
 
 import com.hackathon.xyntra_midas_springboot.model.MissileData;
+import com.hackathon.xyntra_midas_springboot.model.Position;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -19,9 +20,9 @@ public class MissileDataController {
         return ResponseEntity.ok("Missile data received");
     }
     @GetMapping
-    public MissileData sendMissileData() {
+    public Position sendMissileData() {
         System.out.println("Send");
-        return latestMissile;   // Send the latest missile data to frontend
+        return latestMissile.currentPosition;   // Send the latest missile data to frontend
     }
 }
 
