@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./App.css"
 import 'leaflet/dist/leaflet.css';
 
 function MissileDashboard() {
@@ -30,7 +31,8 @@ function MissileDashboard() {
   }, []);
 
   return (
-    <MapContainer center={position} zoom={5} style={{ height: "100vh", width: "100%" }}>
+    <div className='radar' style={{ width: '500px', height: '500px' }}>
+    <MapContainer center={position} zoom={3} style={{ height: "100%", width: "100%" }}>
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         attribution="&copy; OpenStreetMap contributors & CartoDB"
@@ -38,7 +40,8 @@ function MissileDashboard() {
       <Marker position={position}>
         <Popup>Missile in Motion!</Popup>
       </Marker>
-    </MapContainer>
+      </MapContainer>
+      </div>
   );
 }
 
