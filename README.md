@@ -64,7 +64,7 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 
 ---
 
-#### 🧷 Phase 4: Final Prep & Demo
+#### Phase 4: Final Prep & Demo
 
 -  Add **Cybersecurity Statement**: “Secure offline LAN mode.”
 -  Prepare clean 5-slide PPT:
@@ -81,12 +81,10 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 
 ###  Sample Data Flow
 
-```mermaid
-graph TD
-A[Missile Simulator (Python)] --> B[Backend (Spring Boot API)]
-B --> C[AI Modules]
-C --> D[Frontend (React + Leaflet)]
-```
+flowchart TD
+    A[Missile Simulator (Python)] --> B[Backend (Spring Boot API)]
+    B --> C[AI Modules]
+    C --> D[Frontend (React + Leaflet)]
 
 ---
 
