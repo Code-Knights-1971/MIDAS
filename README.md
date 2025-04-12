@@ -80,11 +80,12 @@ Built for hackathons, MIDAS shows how AI can enhance national security systems b
 ---
 
 ###  Sample Data Flow
-
+```
 flowchart TD
     A[Missile Simulator (Python)] --> B[Backend (Spring Boot API)]
     B --> C[AI Modules]
     C --> D[Frontend (React + Leaflet)]
+```
 
 ---
 
