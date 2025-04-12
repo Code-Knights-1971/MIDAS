@@ -1,7 +1,9 @@
+import MissileDashboard from './MissileDashboard';
+
 function App() {
   return (
-    <div className="App">
-      
+    <div style={{ height: '100vh' }}>
+      <MissileDashboard />
     </div>
   );
 }
