@@ -1,7 +1,9 @@
-import "./App.css"
+import "./index.css"
 import img from "./images/missile.png"
 import red from "./images/red dot.png"
 import green from "./images/green dot.png"
+import satGreen from "./images/satellite.png"
+import satred from "./images/satellite red.png"
 import {useState,useEffect} from "react"
 
 function Header() { 
@@ -19,6 +21,7 @@ function Header() {
             </div>
             <div className="sideCont">
                 <SystemStatus />
+                <SatelliteStatus />
                 <RealTimeClockWithDate />
             </div>
             
@@ -70,15 +73,28 @@ function RealTimeClockWithDate() {
       <div style={{ 
         fontFamily: "'Courier New', Courier, monospace", 
         fontSize: '2rem', 
-        color: '#00FF00', 
+        color: 'white', 
             textAlign: 'center',
             display: "flex",
             alignItems: "center",
-            gap:"5px",
+            gap:"10px",
             fontSize: "10px"
       }}>
-        <div>{time}</div>
-        <div style={{ fontSize: '10px' }}>{date}</div>
+            <div>{time}</div>
+        <div style={{ fontSize: '10px',color:"aqua" }}>{date}</div>
+      </div>
+    );
+}
+function SatelliteStatus() {
+    const [satelliteConnected, setSatelliteConnected] = useState(false);
+  
+    return (
+      <div className="satelliteSts">
+        {satelliteConnected ? (
+          <img src={satGreen} alt="connected" />
+        ) : (
+          <img src={satred} alt="disconnected" />
+        )}
       </div>
     );
   }

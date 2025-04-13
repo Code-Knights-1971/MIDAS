@@ -1,25 +1,15 @@
 # test_interception_sim.py
-from interception import generate_missile_path
+
 import json
-# Define interceptor bases
-bases = [
-    (28.61, 77.21), (19.07, 72.87), (13.08, 80.27), (22.57, 88.36),
-    (12.97, 77.59), (23.03, 72.58), (26.92, 75.80), (17.38, 78.48),
-    (21.17, 72.83), (26.85, 80.95), (17.68, 83.22)
-]
-
-# Define missile paths
-missiles = [
-    generate_missile_path(33.0, 60.0, 25.0, 75.0),
-    generate_missile_path(18.0, 60.0, 10.5, 75.0),
-    generate_missile_path(30.0, 100.0, 20.0, 95.0)
-]
-
-
+from datetime import datetime, timezone
 from interception import (
-    generate_missile_path,
-    run_simulations_multiple,
-    plot_all_missiles
+    time_to_reach,
+    calculate_heading,
+    monte_carlo_interception_with_success,
+    plot_all_missiles,
+    estimate_risk,
+    distance,
+    generate_missile_batch
 )
 
 # Define interceptor bases (lat, lon)
@@ -34,21 +24,10 @@ interceptor_bases = [
     (17.38, 78.48),   # Hyderabad
     (21.17, 72.83),   # Surat
     (26.85, 80.95),   # Lucknow
-    (17.68, 83.22),   # Visakhapatnam
+    (17.68, 83.22)    # Visakhapatnam
 ]
 
-# Simulated missile paths
-missile_paths = [
-    generate_missile_path(33.0, 60.0, 25.0, 75.0),   # NW to West India
-    generate_missile_path(18.0, 60.0, 10.5, 75.0),   # SW to South India
-    generate_missile_path(30.0, 100.0, 20.0, 95.0),  # NE to East India
-]
-
-missile_speeds = [2.0]  # units per tick
-interceptor_speeds = [3.0]  # faster than missiles
-
-from datetime import datetime
-
+# Base names for reporting
 base_names = {
     (28.61, 77.21): "Delhi",
     (19.07, 72.87): "Mumbai",
@@ -63,51 +42,63 @@ base_names = {
     (17.68, 83.22): "Visakhapatnam"
 }
 
-# Run the simulation
-raw_results = run_simulations_multiple(
-    missile_paths, interceptor_bases, missile_speeds, interceptor_speeds, samples=50
-)
+# Simulated real-time missile positions
+real_time_missile_paths, missile_info_log = generate_missile_batch()
 
-# Enrich results with metadata
-timestamp = datetime.utcnow().isoformat() + "Z"
+missile_speed = 2.0
+interceptor_speed = 3.0
+samples = 50
 
 enriched_results = []
-for i, result in enumerate(raw_results):
-    missile_path = missile_paths[i]
-    enriched_results.append({
-        "missile_id": i + 1,
-        "missile_path": {
-            "start": missile_path[0],
-            "end": missile_path[-1],
-            "waypoints": missile_path
-        },
-        "simulation_parameters": {
-            "missile_speed": result["missile_speed"],
-            "interceptor_speed": result["interceptor_speed"],
-            "samples": 50
-        },
-        "base": {
-            "name": base_names.get(tuple(result["base"]), "Unknown"),
-            "coordinates": result["base"]
-        },
-        "interception_result": {
-            "success": result["success"],
-            "interception_point": result["interception_point"],
-            "missile_time": result["missile_time"],
-            "interceptor_time": result["interceptor_time"],
-            "success_probability": result["success_probability"],
-            "risk_score": result["risk_score"]
-        },
-        "alert": (
-            f"Missile was NOT intercepted. Impact near {missile_path[-1]}"
-            if not result["success"] else None
-        ),
-        "timestamp": timestamp,
-        "rank": i + 1  # Optional: use your own logic for ranking
-    })
 
-with open("interception_results_detailed.json", "w") as f:
+for missile_id, path in enumerate(real_time_missile_paths, 1):
+    all_results, best_result = monte_carlo_interception_with_success(
+        path, interceptor_bases, [missile_speed], [interceptor_speed], samples=samples
+    )
+
+    if all_results and 'warning' in all_results[0]:
+        enriched_results.append({
+            "missile_id": missile_id,
+            "monte_carlo_attempts": [],
+            "monte_carlo_best": None,
+            "warning": all_results[0]['warning']
+        })
+        continue
+
+    for r in all_results:
+        coords = tuple(r["base"]) if isinstance(r["base"], (list, tuple)) else tuple(r["base"]["coordinates"])
+        r["base"] = {
+            "name": base_names.get(coords, "Unknown"),
+            "coordinates": list(coords)
+        }
+        r["distance"] = distance(r["base"]["coordinates"], r["interception_point"])
+        r["method"] = "monte_carlo"
+
+    if best_result:
+        coords = tuple(best_result["base"]) if isinstance(best_result["base"], (list, tuple)) else tuple(best_result["base"]["coordinates"])
+        best_result["base"] = {
+            "name": base_names.get(coords, "Unknown"),
+            "coordinates": list(coords)
+        }
+        best_result["distance"] = distance(best_result["base"]["coordinates"], best_result["interception_point"])
+        best_result["method"] = "monte_carlo"
+
+    enriched_entry = {
+        "missile_id": missile_id,
+        "interception_result": best_result
+    }
+
+    if all_results and 'warning' in all_results[0]:
+        enriched_entry["warning"] = all_results[0]['warning']
+
+    enriched_results.append(enriched_entry)
+
+
+with open("monte_carlo_real_time_results.json", "w") as f:
     json.dump(enriched_results, f, indent=4)
 
-# Visualize the result
-plot_all_missiles(missile_paths, raw_results, interceptor_bases)
+plot_all_missiles(
+    real_time_missile_paths,
+    [entry["interception_result"] for entry in enriched_results],
+    interceptor_bases
+)
