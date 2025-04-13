@@ -21,7 +21,7 @@ body {
   height: 50px;
   background-color: #04121f;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 
   align-items: center;
 }
@@ -34,10 +34,26 @@ body {
 .logo-content{
   color: aqua;
   font-size: 10px;
+  
 }
 #description{
-  font-size: 7px;
-  color: #0F4C81;
-  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  color: white;
+  font-family:'Courier New', Courier, monospac;
+  
 
+}
+.operationalSts{
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+  font-family:'Courier New', Courier, monospace;
+
+  
+}
+.sideCont{
+  display: flex;
+  align-items: center;
+  
 }
